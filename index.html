@@ -1,148 +1,260 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Hiragana Practice Quiz</title>
-		<meta charset="utf-8">
-		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="js/notify.min.js"></script>
-		<style>
-		* {
-		    margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
-		body {
-			line-height: 1;
-			transition: 0.3s;
-		}
-		
-		#background {
-			height: 100vh;
-			background: transparent;
-			margin-bottom: 50px;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			text-align: center;
-		}
+    <head>
+        <title>Hiragana Practice Quiz</title>
+        <meta charset="utf-8" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            body {
+                display: flex;
+                justify-content: center;
+            }
 
-		h1 {
-			font-size: 7em;
-		}
-		
-		#buttonEnter { 
-			display: none;
-			transition: 0.3s;
-		}
-		
-		input[type=text] {
-			opacity: .5;
-			padding: 10px;
-			border: none;
-			border-bottom: 2px solid #c9c9c9;
-			transition: border 0.3s;
-		}
-		
-		input[type=text]:focus,
-		input[type="text"].focus {
-			border-bottom: solid 2px #969696;
-		}
-		
-		.footer {
-			background-color: #2c2f34;
-			font-family: 'Tahoma', sans-serif;
-			position: fixed;
-			bottom: 0;
-			box-sizing: border-box;
-			padding: 20px;
-			width: 100%;
-			text-align: center;
-			font-size: 20px;
-			box-shadow: 0 -3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-		}
+            #background {
+                height: 100vh;
+                background: transparent;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
 
-		.footer-author {
-			color: #BBB;
-			font-size: 15px;
-		}
+            h1 {
+                font-size: 7em;
+            }
 
-		.footer-heart {
-			color: #ff6961;
-		}
+            #buttonEnter {
+                display: none;
+                transition: 0.3s;
+            }
 
-		.footer-heart:hover {
-			color: #ff3e34;
-		}		
-		</style>
-	</head>
-	<body>
-		<header class="animated fadeIn" id="background">
-			<h1 onClick="skip()" id="placeHere"></h1>
-			<input id="answer" type="text">
-			<button id="buttonEnter" onClick="checkAnswer()">Confirm</button>
-		</header>
-		<div class="footer">
-			<p class="footer-author">Made with <span class="footer-heart">♥</span> by Jan &copy; 2017</p>
-		</div>
-		<script type="text/javascript">
-		bodyColor();
-		document.getElementById("placeHere").addEventListener("load", hiraganaDisplay(1));
+            #buttonSkip {
+                opacity: 1;
+                width: 200px;
+                padding: 10px;
+                background: #2c2f34;
+                color: #fff;
+                border: none;
+                outline: none;
+                border-radius: 4px;
+                font-family: 'Roboto', sans-serif;
+                cursor: pointer;
+                transition: 0.3s;
+            }
 
-		document.getElementById("answer").addEventListener("keyup", function(event) {
-			event.preventDefault();
-			if (event.keyCode == 13) {
-				document.getElementById("buttonEnter").click();
-			}
-		});
-		
-		function bodyColor() {
-			var color_array = ["#A2DED0", "#87D37C", "#90C695", "#26A65B", "#03C9A9", "#68C3A3", "#65C6BB", "#1BBC9B", "#1BA39C", "#66CC99", "#36D7B7", "#C8F7C5", "#86E2D5", "#2ECC71", "#3FC380", "#019875", "#03A678", "#4DAF7C", "#2ABB9B", "#00B16A", "#1E824C", "#049372", "#26C281", "#4ECDC4", "#5C97BF", "#4B77BE", "#89C4F4", "#1F3A93", "#2574A9", "#67809F", "#34495E", "#3A539B", "#1E8BC3", "#6BB9F0", "#22313F", "#336E7B", "#19B5FE", "#2C3E50", "#3498DB", "#22A7F0", "#C5EFF7", "#52B3D9", "#81CFE0", "#59ABE3", "#4183D7"];
-			var bg = document.getElementById("background");
-			bg.style.backgroundColor = color_array[Math.floor((Math.random() * color_array.length) + 0)];
-		};
-		
-		function hiraganaDisplay(state) {
-			hiragana_array = ["ん", "あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ", "さ", "し", "す", "せ", "そ", "た", "ち", "つ", "て", "と", "な", "に", "ぬ", "ね", "の", "は", "ひ", "ふ", "へ", "ほ"];
-			whichHiragana = Math.floor((Math.random() * hiragana_array.length));
-			if(state == 1)
-			{
-				document.getElementById("placeHere").innerHTML += hiragana_array[whichHiragana];
-			}
-			else if(state == 0)
-				return whichHiragana;
-		};
+            #buttonSkip.disabled {
+                opacity: 0;
+                cursor: default;
+            }
 
-		function skip(){
-			clear("placeHere");	
-			hiraganaDisplay(1);
-			bodyColor();
-		};
+            input[type='text'] {
+                opacity: 0.5;
+                padding: 10px;
+                width: 200px;
+                border: none;
+                outline: none;
+                border-radius: 4px;
+                margin-bottom: 5px;
+            }
 
-		function checkAnswer() {
-			var pron_array = ["n", "a", "i", "u", "e", "o", "ka", "ki", "ku", "ke", "ko", "sa", "shi", "su", "se", "so", "ta", "chi", "tsu", "te", "to", "na", "ni", "nu", "ne", "no", "ha", "hi", "fu", "he", "ho",];		
-			if(document.getElementById("answer").value == pron_array[whichHiragana])
-			{
-				$.notify("Correct", "success");
-				console.log("Correct answer was: " + document.getElementById("answer").value);
-				bodyColor();
-				clear("placeHere");			
-				hiraganaDisplay(1);
-				document.getElementById("answer").value = "";
-			}
-			else if(document.getElementById("answer").value != pron_array[whichHiragana + 1])
-			{
-				console.log("Incorrect answer was: " + document.getElementById("answer").value);
-				$.notify("Try again", "error");
-				document.getElementById("answer").value = "";
-			}
-		};
-		
-		function clear(id) {
-			document.getElementById(id).innerHTML = "";
-		};		
-		</script>	
-	</body>
+            .footer {
+                font-family: 'Roboto', sans-serif;
+                position: fixed;
+                bottom: 0;
+                padding: 10px;
+                text-align: center;
+            }
+
+            .footer-author {
+                color: #bbb;
+                font-size: 15px;
+            }
+
+            .footer-heart {
+                color: #ff6961;
+            }
+
+            .footer-heart:hover {
+                color: #ff3e34;
+            }
+
+            .shake {
+                animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+                transform: translate3d(0, 0, 0);
+                backface-visibility: hidden;
+                perspective: 1000px;
+            }
+
+            @keyframes shake {
+                10%,
+                90% {
+                    transform: translate3d(-1px, 0, 0);
+                }
+
+                20%,
+                80% {
+                    transform: translate3d(2px, 0, 0);
+                }
+
+                30%,
+                50%,
+                70% {
+                    transform: translate3d(-4px, 0, 0);
+                }
+
+                40%,
+                60% {
+                    transform: translate3d(4px, 0, 0);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="quiz animated fadeIn" id="background">
+            <h1 onClick="skip()" id="placeHere"></h1>
+            <input id="answer" type="text" />
+            <button id="buttonEnter" onClick="checkAnswer()">Confirm</button>
+            <button id="buttonSkip" class="disabled" onClick="nextCharacter()">Skip</button>
+        </div>
+
+        <script type="text/javascript">
+            const character = document.getElementById('placeHere');
+            const answer = document.getElementById('answer');
+            const btn = document.getElementById('buttonEnter');
+            const btnSkip = document.getElementById('buttonSkip');
+
+            const hiragana = {
+                あ: 'a',
+                い: 'i',
+                う: 'u',
+                え: 'e',
+                お: 'o',
+                か: 'ka',
+                き: 'ki',
+                く: 'ku',
+                け: 'ke',
+                こ: 'ko',
+                さ: 'sa',
+                し: 'shi',
+                す: 'su',
+                せ: 'se',
+                そ: 'so',
+                た: 'ta',
+                ち: 'chi',
+                つ: 'tsu',
+                て: 'te',
+                と: 'to',
+                な: 'na',
+                に: 'ni',
+                ぬ: 'nu',
+                ね: 'ne',
+                の: 'no',
+                は: 'ha',
+                ひ: 'hi',
+                ふ: 'fu',
+                へ: 'he',
+                ほ: 'ho',
+                ま: 'ma',
+                み: 'mi',
+                む: 'mu',
+                め: 'me',
+                も: 'mo',
+                や: 'ya',
+                ゆ: 'yu',
+                よ: 'yo',
+                ら: 'ra',
+                り: 'ri',
+                る: 'ru',
+                れ: 're',
+                ろ: 'ro',
+                わ: 'wa',
+                を: 'wo',
+                ん: 'n',
+            };
+
+            const STATE = {
+                current: '',
+                answer: '',
+            };
+
+            let skipTimeout = null;
+
+            document.addEventListener('DOMContentLoaded', nextCharacter());
+
+            answer.addEventListener('keyup', function (event) {
+                event.preventDefault();
+                if (event.keyCode == 13) {
+                    btn.click();
+                }
+            });
+
+            function getRandomHiragana() {
+                const keys = Object.keys(hiragana);
+                return keys[(keys.length * Math.random()) << 0];
+            }
+
+            function getRandomColor() {
+                // prettier-ignore
+                const backgroundColors = ['#A2DED0','#87D37C','#90C695','#26A65B','#03C9A9','#68C3A3','#65C6BB','#1BBC9B','#1BA39C','#66CC99','#36D7B7','#C8F7C5','#86E2D5','#2ECC71','#3FC380','#019875','#03A678','#4DAF7C','#2ABB9B','#00B16A','#1E824C','#049372','#26C281','#4ECDC4','#5C97BF','#4B77BE','#89C4F4','#1F3A93','#2574A9','#67809F','#34495E','#3A539B','#1E8BC3','#6BB9F0','#22313F','#336E7B','#19B5FE','#2C3E50','#3498DB','#22A7F0','#C5EFF7','#52B3D9','#81CFE0','#59ABE3','#4183D7'];
+                return backgroundColors[(backgroundColors.length * Math.random()) << 0];
+            }
+
+            function nextCharacter() {
+                // hide btnSkip
+                btnSkip.classList.add('disabled');
+                btnSkip.disabled = true;
+
+                if (skipTimeout) {
+                    clearTimeout(skipTimeout);
+                }
+
+                const randomHiragana = getRandomHiragana();
+
+                STATE.current = randomHiragana;
+                STATE.answer = hiragana[randomHiragana];
+
+                document.body.style.backgroundColor = getRandomColor();
+
+                character.innerHTML = randomHiragana;
+                character.title = hiragana[randomHiragana];
+
+                answer.value = '';
+                answer.focus();
+
+                // show a skip button if not solved in 10 seconds
+                skipTimeout = setTimeout(function () {
+                    btnSkip.classList.remove('disabled');
+                    btnSkip.disabled = false;
+                }, 5000);
+            }
+
+            function checkAnswer() {
+                const input = answer.value;
+
+                if (input === STATE.answer) {
+                    console.log(`Correct! ${STATE.current} was ${STATE.answer}`);
+                    nextCharacter();
+                    return;
+                }
+
+                console.log(`Wrong! ${STATE.current} is not ${input}`);
+                answer.value = '';
+                answer.classList.add('shake');
+                setTimeout(function () {
+                    answer.classList.remove('shake');
+                }, 1000);
+            }
+        </script>
+    </body>
 </html>
